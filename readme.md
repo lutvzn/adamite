@@ -18,16 +18,16 @@ cd my-anatase
 Then, customize `Containerfile` to your liking. When done, if on an Anatase system, you can run `./update.sh` from the terminal to update to that image and run it again periodically to access the latest versions. Do not run `./update.sh` in Spaces. If your IDE is in a Space, open the folder using a host terminal and run it there.
 
 ### On Github actions
-A [build.yml](./.github/workflows/build.yml) Github workflow is provided that allows you to go to your fork, select `Actions > Build Custom Image > Run Workflow`. This will build the image and upload it under `ghcr.io/<your-username>/my-anatase`.
+A [build.yml](./.github/workflows/build.yml) Github workflow is provided that allows you to go to your fork, select `Actions > Build Custom Image > Run Workflow`. This will build the image and upload it under `ghcr.io/<your-username>/ruizite`.
 
 Then, you can switch to it with:
 ```bash
-sudo bootc switch ghcr.io/<my-username>/my-anatase
+sudo bootc switch ghcr.io/<my-username>/ruizite
 ```
 
 Afterwards, the automatic updater will pick it up and handle updates for you, or you can manually do `sudo bootc update`.
 
-You can edit [build.yml](./.github/workflows/build.yml) to switch `my-anatase` to something else, enable build on pushes, and run the workflow on a schedule.
+You can edit [build.yml](./.github/workflows/build.yml) to switch `ruizite` to something else, enable build on pushes, and run the workflow on a schedule.
 
 > [!NOTE]
 > **Remember:** use `FROM i.anatase.org/base:stable` when you want to use a different Desktop Environment. To extend Anatase, use `FROM i.anatase.org/anatase:stable` 
@@ -35,6 +35,10 @@ You can edit [build.yml](./.github/workflows/build.yml) to switch `my-anatase` t
 ## Examples
 
 In the [`./examples`](./examples/) folder, you will find Containerfiles for inspiration, such as ones for Gnome and Cosmic. Feel free to experiment and then PR new examples as well!
+
+## OS name
+
+Ruizite shows up as "Ruizite" in the boot menu, System Settings and tools like `fastfetch`. Only `NAME` and `PRETTY_NAME` in `/usr/lib/os-release` change. `ID=anatase` and the other fields stay as they are, so anything that checks for Anatase, including Steam and the updater, still works.
 
 ## Homebrew (brew-proxy)
 

@@ -1,5 +1,11 @@
 FROM i.anatase.org/anatase:stable
 
+# Show "Ruizite" as the OS name (boot menu, System Settings, fastfetch). Only the
+# display names change: ID, VARIANT_ID and the rest stay Anatase's, so tools and the
+# updater that check for Anatase keep working and rebasing back stays clean.
+RUN sed -i -e 's/^NAME=.*/NAME="Ruizite"/' -e 's/^PRETTY_NAME=.*/PRETTY_NAME="Ruizite"/' \
+        /usr/lib/os-release
+
 # Do your thing...
 # Install btop
 # RUN dnf -y install btop

@@ -48,6 +48,14 @@ Ruizite ships [Homebrew](https://brew.sh/) with [brew-proxy](https://codeberg.or
 
 Brew is set up on first boot. `brew-update.timer` and `brew-upgrade.timer` keep it updated automatically.
 
+## Extra apps
+
+Ruizite also ships:
+
+- [foot](https://codeberg.org/dnkl/foot), a lightweight Wayland terminal, from the Fedora repos.
+- [Brave Origin](https://brave.com/origin/linux/), from Brave's RPM repo, checked against Brave's release keys in [`keys/`](./keys/). It updates with the image, not through `dnf`.
+- [NetBird](https://netbird.io/), a WireGuard mesh VPN client, from NetBird's RPM repo, checked against its key in [`keys/`](./keys/). `netbird.service` is enabled, so you only need to run `netbird up` to join your network. Settings such as a self-hosted management URL go in `/etc/sysconfig/netbird`. The GTK tray app (`netbird-ui`) is not included.
+
 ## Frequently Asked Questions
 The base image does not include a "Return to Gamemode" shortcut or autologin
 settings in Handheld Daemon as they are KDE specific. You can configure your Desktop Environment to autologin to "Gamemode" instead.

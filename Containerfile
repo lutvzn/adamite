@@ -26,6 +26,45 @@ RUN --mount=type=bind,source=keys/secureblue-copr.gpg,target=/tmp/secureblue-cop
     systemctl enable brew-proxy-setup.service brew-proxy-fix-ownership.service \
         brew-update.timer brew-upgrade.timer
 
+# foot, a lightweight Wayland terminal, from the Fedora repos.
+RUN dnf -y install --setopt=install_weak_deps=False foot
+
+# Brave Origin, Brave without the extras. It comes from Brave's RPM repo, is checked
+# against Brave's pinned release keys (DBF1 A116 C220 B8C7 164F 9823 0686 B784 2003 8257
+# and its two successors), and is limited to these names. The repo is only used for
+# this build, so Brave updates arrive with image rebuilds.
+# The RPM installs to /opt, which is /var/opt here and gets wiped by the cleanup step,
+# so move it to /usr/lib/opt and link it back at boot, like rpm-ostree does.
+RUN --mount=type=bind,source=keys/brave.gpg,target=/tmp/brave.gpg \
+    mkdir -p /var/opt && \
+    dnf -y install --setopt=install_weak_deps=False \
+        --repofrompath='brave,https://brave-browser-rpm-release.s3.brave.com/$basearch' \
+        --setopt=brave.gpgcheck=1 \
+        --setopt=brave.gpgkey=file:///tmp/brave.gpg \
+        --setopt=brave.includepkgs='brave-origin,brave-keyring' \
+        brave-origin && \
+    mkdir -p /usr/lib/opt && \
+    mv /var/opt/brave.com /usr/lib/opt/brave.com && \
+    echo 'L /var/opt/brave.com - - - - /usr/lib/opt/brave.com' > /usr/lib/tmpfiles.d/brave-origin.conf
+
+# NetBird, a WireGuard mesh VPN. It comes from NetBird's RPM repo; packages and repo
+# metadata are checked against its pinned key (AA9C 09AA 9DEA 2F58 112B 40DF DFFE AB2F
+# D267 A61F), and the repo is only used for this build. Its install script runs
+# `netbird service install/start`, which fails in a build, so skip scripts and ship the
+# unit it would have written. Keep /etc/sysconfig/netbird root-only like the script
+# does, since it can hold a token PIN.
+COPY files/netbird.service /usr/lib/systemd/system/netbird.service
+RUN --mount=type=bind,source=keys/netbird.gpg,target=/tmp/netbird.gpg \
+    dnf -y install --setopt=install_weak_deps=False --setopt=tsflags=noscripts \
+        --repofrompath='netbird,https://pkgs.netbird.io/yum/' \
+        --setopt=netbird.gpgcheck=1 \
+        --setopt=netbird.repo_gpgcheck=1 \
+        --setopt=netbird.gpgkey=file:///tmp/netbird.gpg \
+        --setopt=netbird.includepkgs=netbird \
+        netbird && \
+    chmod 0600 /etc/sysconfig/netbird && \
+    systemctl enable netbird.service
+
 # Cleanup (leave this here)
 RUN rm -rf /var && \
     mkdir -p /var/tmp

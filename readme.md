@@ -60,6 +60,16 @@ Ruizite also ships:
 - [Brave Origin](https://brave.com/origin/linux/), from Brave's RPM repo, checked against Brave's release keys in [`keys/`](./keys/). It updates with the image, not through `dnf`.
 - [NetBird](https://netbird.io/), a WireGuard mesh VPN client, from NetBird's RPM repo, checked against its key in [`keys/`](./keys/). `netbird.service` is enabled, so you only need to run `netbird up` to join your network. Settings such as a self-hosted management URL go in `/etc/sysconfig/netbird`. The GTK tray app (`netbird-ui`) is not included.
 
+## Noctalia, Hyprland and niri
+
+Ruizite adds two sessions next to Plasma in the login screen: Hyprland and niri, both running the [Noctalia](https://noctalia.dev) shell. Plasma stays the default and is unchanged.
+
+- Noctalia, niri and xwayland-satellite come from the Fedora repos.
+- Hyprland, its libraries and xdg-desktop-portal-hyprland (screen sharing and screenshots under Hyprland) aren't in Fedora. They come from [lutvzn/packages](https://github.com/lutvzn/packages), which builds them from pinned upstream sources on GitHub Actions. The image checks them against that repo's key in [`keys/`](./keys/) instead of using someone else's COPR. That build leaves out hyprpm (plugins) and Hyprland's 48 MB of default wallpapers.
+- `noctalia.service` starts Noctalia with either session, so you can keep using Hyprland's and niri's own default configs. It never starts in Plasma.
+
+On first login, Hyprland and niri write their default config to `~/.config/hypr/` and `~/.config/niri/`. Those defaults open apps Ruizite doesn't ship (kitty or alacritty for the terminal, hyprlauncher or fuzzel for the launcher), so point those bindings at `foot` and `noctalia msg panel-toggle launcher`.
+
 ## Frequently Asked Questions
 The base image does not include a "Return to Gamemode" shortcut or autologin
 settings in Handheld Daemon as they are KDE specific. You can configure your Desktop Environment to autologin to "Gamemode" instead.

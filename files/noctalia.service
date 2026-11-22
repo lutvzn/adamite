@@ -1,0 +1,18 @@
+# Starts Noctalia with the Hyprland and niri sessions, so neither session's
+# default config needs changing. Plasma starts neither unit, so Noctalia never
+# runs there.
+[Unit]
+Description=Noctalia shell
+PartOf=graphical-session.target
+After=graphical-session.target
+
+[Service]
+ExecStart=/usr/bin/noctalia
+# Hyprland exports WAYLAND_DISPLAY to systemd while it starts its session target,
+# so the first start can race it.
+Restart=on-failure
+RestartSec=1
+Slice=app-graphical.slice
+
+[Install]
+WantedBy=hyprland-session.target niri.service

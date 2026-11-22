@@ -71,6 +71,24 @@ RUN --mount=type=bind,source=keys/netbird.gpg,target=/tmp/netbird.gpg \
     chmod 0600 /etc/sysconfig/netbird && \
     systemctl enable netbird.service
 
+# Noctalia shell with Hyprland and niri, as extra sessions next to Plasma in SDDM.
+# Noctalia, niri and xwayland-satellite come from Fedora. Hyprland, its libraries and
+# its portal (screen sharing, screenshots) aren't in Fedora, so they come from
+# github.com/lutvzn/packages, built from pinned upstream sources on GitHub Actions.
+# Packages and repo metadata are checked against its pinned key (A7CC 0893 6B30 B427
+# 873E 2B2D 15DF 8D57 EA7D 3A64), the repo is limited to these names, and it is only
+# used for this build.
+COPY files/noctalia.service /usr/lib/systemd/user/noctalia.service
+RUN --mount=type=bind,source=keys/lutvzn-packages.gpg,target=/tmp/lutvzn-packages.gpg \
+    dnf -y install --setopt=install_weak_deps=False \
+        --repofrompath='lutvzn,https://lutvzn.github.io/packages/fedora/$releasever/$basearch/' \
+        --setopt=lutvzn.gpgcheck=1 \
+        --setopt=lutvzn.repo_gpgcheck=1 \
+        --setopt=lutvzn.gpgkey=file:///tmp/lutvzn-packages.gpg \
+        --setopt=lutvzn.includepkgs='hyprland,aquamarine,hyprcursor,hyprgraphics,hyprlang,hyprutils,hyprwire,hyprtoolkit,xdg-desktop-portal-hyprland' \
+        noctalia niri xwayland-satellite hyprland xdg-desktop-portal-hyprland && \
+    systemctl --global enable noctalia.service
+
 # Cleanup (leave this here)
 RUN rm -rf /var && \
     mkdir -p /var/tmp

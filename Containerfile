@@ -85,7 +85,12 @@ RUN --mount=type=bind,source=keys/netbird.gpg,target=/tmp/netbird.gpg \
 # Packages and repo metadata are checked against its pinned key (A7CC 0893 6B30 B427
 # 873E 2B2D 15DF 8D57 EA7D 3A64), the repo is limited to these names, and it is only
 # used for this build.
+# Default configs for both, set up for foot, Noctalia and KWallet. Hyprland and niri
+# only use them while ~/.config/hypr/hyprland.lua or ~/.config/niri/config.kdl is missing.
+# They are based on Hyprland 0.57.2's and niri 26.04's defaults; recheck them on upgrades.
 COPY files/noctalia.service /usr/lib/systemd/user/noctalia.service
+COPY files/hypr/hyprland.lua /etc/xdg/hypr/hyprland.lua
+COPY files/niri/config.kdl /etc/niri/config.kdl
 RUN --mount=type=bind,source=keys/lutvzn-packages.gpg,target=/tmp/lutvzn-packages.gpg \
     dnf -y install --setopt=install_weak_deps=False \
         --repofrompath='lutvzn,https://lutvzn.github.io/packages/fedora/$releasever/$basearch/' \

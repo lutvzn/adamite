@@ -7,6 +7,8 @@ PartOf=graphical-session.target
 After=graphical-session.target
 
 [Service]
+# Skip, rather than fail, if the compositor's own config already started it.
+ExecCondition=/usr/bin/sh -c '! /usr/bin/pgrep -u %U -x noctalia'
 ExecStart=/usr/bin/noctalia
 # Hyprland exports WAYLAND_DISPLAY to systemd while it starts its session target,
 # so the first start can race it.

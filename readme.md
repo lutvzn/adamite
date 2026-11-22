@@ -66,9 +66,16 @@ Ruizite adds two sessions next to Plasma in the login screen: Hyprland and niri,
 
 - Noctalia, niri and xwayland-satellite come from the Fedora repos.
 - Hyprland, its libraries, xdg-desktop-portal-hyprland (screen sharing and screenshots under Hyprland) and hyprland-guiutils (its dialogs and run prompt) aren't in Fedora. They come from [lutvzn/packages](https://github.com/lutvzn/packages), which builds them from pinned upstream sources on GitHub Actions. The image checks them against that repo's key in [`keys/`](./keys/) instead of using someone else's COPR. That build leaves out hyprpm (plugins) and Hyprland's 48 MB of default wallpapers.
-- `noctalia.service` starts Noctalia with either session, so you can keep using Hyprland's and niri's own default configs. It never starts in Plasma. If your Hyprland config also runs `noctalia` at startup, remove that line, as the second copy fails with "noctalia is already running".
+- `noctalia.service` starts Noctalia with either session, so you can keep using Hyprland's and niri's own default configs. It never starts in Plasma. If your own config also starts `noctalia`, the service skips itself.
 
-On first login, Hyprland and niri write their default config to `~/.config/hypr/` and `~/.config/niri/`. Those defaults open apps Ruizite doesn't ship (kitty or alacritty for the terminal, hyprlauncher or fuzzel for the launcher), so point those bindings at `foot` and `noctalia msg panel-toggle launcher`.
+Both sessions start with Ruizite's default configs, [`/etc/xdg/hypr/hyprland.lua`](./files/hypr/hyprland.lua) and [`/etc/niri/config.kdl`](./files/niri/config.kdl). They are the upstream defaults with these changes:
+
+- foot as the terminal (Super+Q in Hyprland, Super+T in niri) and Noctalia's launcher (Super+R in Hyprland, Super+D in niri).
+- KWallet unlocks with your login password, as in Plasma, so Brave and other apps find their saved passwords.
+- Volume, brightness and media keys, screenshots and locking go through Noctalia.
+- In Hyprland, Noctalia's colours apply once you enable its Hyprland template in Noctalia's settings.
+
+To customize them, copy them to `~/.config/hypr/hyprland.lua` or `~/.config/niri/config.kdl` and edit the copy. From then on, image updates no longer change your config. When Hyprland or niri is updated, compare your copy with the new default, since their config format changes between releases.
 
 ## Frequently Asked Questions
 The base image does not include a "Return to Gamemode" shortcut or autologin

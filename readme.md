@@ -36,6 +36,18 @@ You can edit [build.yml](./.github/workflows/build.yml) to switch `my-anatase` t
 
 In the [`./examples`](./examples/) folder, you will find Containerfiles for inspiration, such as ones for Gnome and Cosmic. Feel free to experiment and then PR new examples as well!
 
+## Homebrew (brew-proxy)
+
+Ruizite ships [Homebrew](https://brew.sh/) with [brew-proxy](https://codeberg.org/HastD/brew-proxy), set up the same way as [secureblue](https://secureblue.dev). The packages come from secureblue's COPR and are checked against its pinned signing key in [`keys/`](./keys/).
+
+`/home/linuxbrew` belongs to a dedicated `linuxbrew` user. When you run `brew`, the command is passed to a sandboxed daemon that runs as that user, so your own processes can't change brew's binaries:
+
+- Read-only commands (`brew list`, `brew info`, `brew search`) work for everyone.
+- `brew update`, `brew upgrade` and `brew cleanup` ask for admin authentication. They don't ask if you're in the `brewadmin` group (`sudo usermod -aG brewadmin $USER`).
+- `brew install` and `brew uninstall` always ask for admin authentication. For several changes in a row, use `run0 -u linuxbrew`.
+
+Brew is set up on first boot. `brew-update.timer` and `brew-upgrade.timer` keep it updated automatically.
+
 ## Frequently Asked Questions
 The base image does not include a "Return to Gamemode" shortcut or autologin
 settings in Handheld Daemon as they are KDE specific. You can configure your Desktop Environment to autologin to "Gamemode" instead.

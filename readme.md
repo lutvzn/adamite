@@ -58,6 +58,7 @@ Ruizite also ships:
 
 - [foot](https://codeberg.org/dnkl/foot), a lightweight Wayland terminal, from the Fedora repos.
 - [Brave Origin](https://brave.com/origin/linux/), from Brave's RPM repo, checked against Brave's release keys in [`keys/`](./keys/). It updates with the image, not through `dnf`. It always uses KWallet, so saved passwords and logins carry over between Plasma, Hyprland and niri.
+- `ffmpeg` and `ffprobe` with H.264 and H.265 encoding (x264, x265), AV1, VP9 and Opus, and VA-API, NVENC and Vulkan hardware acceleration. Fedora's own build leaves out H.264 and H.265, so this one comes from [lutvzn/packages](https://github.com/lutvzn/packages), checked against its key in [`keys/`](./keys/). Its libraries are a private copy that only those two programs use, so Anatase's own ffmpeg libraries are unchanged.
 - [NetBird](https://netbird.io/), a WireGuard mesh VPN client, from NetBird's RPM repo, checked against its key in [`keys/`](./keys/). `netbird.service` is enabled, so you only need to run `netbird up` to join your network. Settings such as a self-hosted management URL go in `/etc/sysconfig/netbird`. The GTK tray app (`netbird-ui`) is not included.
 
 ## Noctalia, Hyprland and niri

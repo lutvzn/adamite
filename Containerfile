@@ -102,6 +102,20 @@ RUN --mount=type=bind,source=keys/lutvzn-packages.gpg,target=/tmp/lutvzn-package
         hyprland-guiutils && \
     systemctl --global enable noctalia.service
 
+# ffmpeg with H.264 and H.265 encoding and hardware acceleration, from the same repo.
+# Fedora's ffmpeg-free leaves out x264 and x265, and full builds need RPM Fusion, so
+# github.com/lutvzn/packages builds them in. Its own copy of ffmpeg's libraries sits
+# in /usr/lib64/ffmpeg-full, used only by ffmpeg and ffprobe, so the libav*-free
+# libraries Anatase ships stay as they are.
+RUN --mount=type=bind,source=keys/lutvzn-packages.gpg,target=/tmp/lutvzn-packages.gpg \
+    dnf -y install --setopt=install_weak_deps=False \
+        --repofrompath='lutvzn,https://lutvzn.github.io/packages/fedora/$releasever/$basearch/' \
+        --setopt=lutvzn.gpgcheck=1 \
+        --setopt=lutvzn.repo_gpgcheck=1 \
+        --setopt=lutvzn.gpgkey=file:///tmp/lutvzn-packages.gpg \
+        --setopt=lutvzn.includepkgs=ffmpeg-full \
+        ffmpeg-full
+
 # Cleanup (leave this here)
 RUN rm -rf /var && \
     mkdir -p /var/tmp

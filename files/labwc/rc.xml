@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<!--
+  Adamite's default labwc config, used until you create ~/.config/labwc/rc.xml.
+  To customize it, copy this file there: cp /etc/xdg/labwc/rc.xml ~/.config/labwc/
+
+  It is labwc 0.20's example rc.xml (/usr/share/doc/labwc/rc.xml) with these
+  changes for Adamite:
+  - the Noctalia theme, once its Labwc template is enabled
+  - Noctalia's launcher on Super, and its lock screen on Super+L
+  - volume, brightness and media keys and screenshots use Noctalia
+  labwc's own default keybinds stay on, with foot as the terminal (Super+Enter).
+  For every option, see /usr/share/doc/labwc/rc.xml.all.
+-->
+
+<labwc_config>
+
+  <theme>
+    <!-- Noctalia installs this theme once its Labwc template is enabled. Until
+         then, labwc uses its built-in theme. Run `labwc -r` to apply it. -->
+    <name>noctalia</name>
+    <cornerRadius>8</cornerRadius>
+    <font name="sans" size="10" />
+  </theme>
+
+  <keyboard>
+    <default />
+    <keybind key="W-Return">
+      <action name="Execute" command="foot" />
+    </keybind>
+    <!-- Press and release Super on its own to open Noctalia's launcher -->
+    <keybind key="Super_L" onRelease="yes">
+      <action name="Execute" command="noctalia msg panel-toggle launcher" />
+    </keybind>
+    <keybind key="W-l">
+      <action name="Execute" command="noctalia msg session lock" />
+    </keybind>
+
+    <!-- Volume, brightness and media keys -->
+    <keybind key="XF86AudioRaiseVolume" allowWhenLocked="yes">
+      <action name="Execute" command="noctalia msg volume-up" />
+    </keybind>
+    <keybind key="XF86AudioLowerVolume" allowWhenLocked="yes">
+      <action name="Execute" command="noctalia msg volume-down" />
+    </keybind>
+    <keybind key="XF86AudioMute" allowWhenLocked="yes">
+      <action name="Execute" command="noctalia msg volume-mute" />
+    </keybind>
+    <keybind key="XF86AudioMicMute" allowWhenLocked="yes">
+      <action name="Execute" command="noctalia msg mic-mute" />
+    </keybind>
+    <keybind key="XF86MonBrightnessUp" allowWhenLocked="yes">
+      <action name="Execute" command="noctalia msg brightness-up" />
+    </keybind>
+    <keybind key="XF86MonBrightnessDown" allowWhenLocked="yes">
+      <action name="Execute" command="noctalia msg brightness-down" />
+    </keybind>
+    <keybind key="XF86AudioPlay" allowWhenLocked="yes">
+      <action name="Execute" command="noctalia msg media toggle" />
+    </keybind>
+    <keybind key="XF86AudioPause" allowWhenLocked="yes">
+      <action name="Execute" command="noctalia msg media toggle" />
+    </keybind>
+    <keybind key="XF86AudioPrev" allowWhenLocked="yes">
+      <action name="Execute" command="noctalia msg media previous" />
+    </keybind>
+    <keybind key="XF86AudioNext" allowWhenLocked="yes">
+      <action name="Execute" command="noctalia msg media next" />
+    </keybind>
+
+    <!-- Screenshots, saved to ~/Pictures/Screenshots and copied to the clipboard -->
+    <keybind key="Print">
+      <action name="Execute" command="noctalia msg screenshot-region" />
+    </keybind>
+    <keybind key="C-Print">
+      <action name="Execute" command="noctalia msg screenshot-fullscreen" />
+    </keybind>
+    <keybind key="A-Print">
+      <action name="Execute" command="noctalia msg screenshot-window" />
+    </keybind>
+  </keyboard>
+
+</labwc_config>

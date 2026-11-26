@@ -41,7 +41,7 @@ RUN dnf -y install --setopt=install_weak_deps=False foot
 # this build, so Brave updates arrive with image rebuilds.
 # The RPM installs to /opt, which is /var/opt here and gets wiped by the cleanup step,
 # so move it to /usr/lib/opt and link it back at boot, like rpm-ostree does.
-# Chromium only picks KWallet on its own under Plasma; under Hyprland and niri it
+# Chromium only picks KWallet on its own under Plasma; in the other sessions it
 # stores passwords and cookies unencrypted and can't read the ones Plasma saved. So
 # the launcher always asks for KWallet. A --password-store flag passed by hand wins.
 RUN --mount=type=bind,source=keys/brave.gpg,target=/tmp/brave.gpg \
@@ -101,6 +101,24 @@ RUN --mount=type=bind,source=keys/lutvzn-packages.gpg,target=/tmp/lutvzn-package
         noctalia niri xwayland-satellite hyprland xdg-desktop-portal-hyprland \
         hyprland-guiutils && \
     systemctl --global enable noctalia.service
+
+# Sway (tiling) and labwc (stacking) as two more Noctalia sessions, from Fedora. Both
+# use the wlroots that's already in the image, so they add about 2 MB.
+# xdg-desktop-portal-wlr handles screen sharing and screenshots in both.
+# sway-config-minimal is the Sway config package without extra dependencies (the
+# upstream one pulls in swaybg and 5 MB of wallpapers). Neither it nor Fedora's labwc
+# ships a login screen entry, so ship those too.
+# The default configs are set up for foot, Noctalia and KWallet, and start Noctalia
+# themselves. They're copied after the install, since sway-config-minimal owns
+# /etc/sway/config. Sway and labwc only use them while ~/.config/sway/config or
+# ~/.config/labwc/rc.xml and autostart are missing. They are based on Sway 1.12's and
+# labwc 0.20's defaults; recheck them on upgrades.
+RUN dnf -y install --setopt=install_weak_deps=False \
+        sway sway-config-minimal labwc xdg-desktop-portal-wlr
+COPY files/wayland-sessions/sway.desktop files/wayland-sessions/labwc.desktop \
+     /usr/share/wayland-sessions/
+COPY files/sway/config /etc/sway/config
+COPY files/labwc/rc.xml files/labwc/autostart /etc/xdg/labwc/
 
 # ffmpeg with H.264 and H.265 encoding and hardware acceleration, from the same repo.
 # Fedora's ffmpeg-free leaves out x264 and x265, and full builds need RPM Fusion, so

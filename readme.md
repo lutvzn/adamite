@@ -61,26 +61,28 @@ Brew is set up on first boot. `brew-update.timer` and `brew-upgrade.timer` keep 
 Adamite also ships:
 
 - [foot](https://codeberg.org/dnkl/foot), a lightweight Wayland terminal, from the Fedora repos.
-- [Brave Origin](https://brave.com/origin/linux/), from Brave's RPM repo, checked against Brave's release keys in [`keys/`](./keys/). It updates with the image, not through `dnf`. It always uses KWallet, so saved passwords and logins carry over between Plasma, Hyprland and niri.
+- [Brave Origin](https://brave.com/origin/linux/), from Brave's RPM repo, checked against Brave's release keys in [`keys/`](./keys/). It updates with the image, not through `dnf`. It always uses KWallet, so saved passwords and logins carry over between Plasma and the Noctalia sessions.
 - `ffmpeg` and `ffprobe` with H.264 and H.265 encoding (x264, x265), AV1, VP9 and Opus, and VA-API, NVENC and Vulkan hardware acceleration. Fedora's own build leaves out H.264 and H.265, so this one comes from [lutvzn/packages](https://github.com/lutvzn/packages), checked against its key in [`keys/`](./keys/). Its libraries are a private copy that only those two programs use, so Anatase's own ffmpeg libraries are unchanged.
 - [NetBird](https://netbird.io/), a WireGuard mesh VPN client, from NetBird's RPM repo, checked against its key in [`keys/`](./keys/). `netbird.service` is enabled, so you only need to run `netbird up` to join your network. Settings such as a self-hosted management URL go in `/etc/sysconfig/netbird`. The GTK tray app (`netbird-ui`) is not included.
 
-## Noctalia, Hyprland and niri
+## Noctalia, Hyprland, niri, Sway and labwc
 
-Adamite adds two sessions next to Plasma in the login screen: Hyprland and niri, both running the [Noctalia](https://noctalia.dev) shell. Plasma stays the default and is unchanged.
+Adamite adds four sessions next to Plasma in the login screen: Hyprland, niri, Sway and labwc, all running the [Noctalia](https://noctalia.dev) shell. Plasma stays the default and is unchanged.
 
-- Noctalia, niri and xwayland-satellite come from the Fedora repos.
+- Noctalia, niri, xwayland-satellite, Sway, labwc and xdg-desktop-portal-wlr (screen sharing and screenshots under Sway and labwc) come from the Fedora repos. Sway and labwc reuse the wlroots library that's already in the image, so together they add about 2 MB.
 - Hyprland, its libraries, xdg-desktop-portal-hyprland (screen sharing and screenshots under Hyprland) and hyprland-guiutils (its dialogs and run prompt) aren't in Fedora. They come from [lutvzn/packages](https://github.com/lutvzn/packages), which builds them from pinned upstream sources on GitHub Actions. The image checks them against that repo's key in [`keys/`](./keys/) instead of using someone else's COPR. That build leaves out hyprpm (plugins) and Hyprland's 48 MB of default wallpapers.
-- `noctalia.service` starts Noctalia with either session, so you can keep using Hyprland's and niri's own default configs. It never starts in Plasma. If your own config also starts `noctalia`, the service skips itself.
+- `noctalia.service` starts Noctalia with Hyprland and niri, so you can keep using their own default configs. It never starts in Plasma. If your own config also starts `noctalia`, the service skips itself.
+- Sway and labwc don't start a systemd session, so Adamite's default configs for them start Noctalia themselves. Keep that line if you write your own config.
 
-Both sessions start with Adamite's default configs, [`/etc/xdg/hypr/hyprland.lua`](./files/hypr/hyprland.lua) and [`/etc/niri/config.kdl`](./files/niri/config.kdl). They are the upstream defaults with these changes:
+Each session starts with Adamite's default config: [`/etc/xdg/hypr/hyprland.lua`](./files/hypr/hyprland.lua), [`/etc/niri/config.kdl`](./files/niri/config.kdl), [`/etc/sway/config`](./files/sway/config), and [`/etc/xdg/labwc/rc.xml`](./files/labwc/rc.xml) with [`autostart`](./files/labwc/autostart). They are the upstream defaults with these changes:
 
-- foot as the terminal (Super+Q in Hyprland, Super+T in niri) and Noctalia's launcher (Super+R in Hyprland, Super+D in niri).
+- foot as the terminal (Super+Q in Hyprland, Super+T in niri, Super+Enter in Sway and labwc) and Noctalia's launcher (Super+R in Hyprland, Super+D in niri and Sway, tapping Super in labwc).
 - KWallet unlocks with your login password, as in Plasma, so Brave and other apps find their saved passwords.
 - Volume, brightness and media keys, screenshots and locking go through Noctalia.
-- In Hyprland, Noctalia's colours apply once you enable its Hyprland template in Noctalia's settings.
+- Sway has no swaybar and no default wallpaper, since Noctalia provides both. Super+Shift+E opens Noctalia's session menu instead of Sway's exit prompt.
+- In Hyprland, Sway and labwc, Noctalia's colours apply once you enable that compositor's template in Noctalia's settings. Sway picks them up on reload (Super+Shift+C) and labwc after `labwc -r`.
 
-To customize them, copy them to `~/.config/hypr/hyprland.lua` or `~/.config/niri/config.kdl` and edit the copy. From then on, image updates no longer change your config. When Hyprland or niri is updated, compare your copy with the new default, since their config format changes between releases.
+To customize them, copy them to `~/.config/hypr/hyprland.lua`, `~/.config/niri/config.kdl`, `~/.config/sway/config` or `~/.config/labwc/` and edit the copy. From then on, image updates no longer change your config. labwc looks up `rc.xml` and `autostart` separately, so copying only `rc.xml` keeps Adamite's autostart. When a compositor is updated, compare your copy with the new default, since config formats change between releases.
 
 ## Frequently Asked Questions
 The base image does not include a "Return to Gamemode" shortcut or autologin

@@ -1,0 +1,11 @@
+# Adamite's default labwc autostart, used until you create ~/.config/labwc/autostart.
+# labwc looks up each of its files on its own, so this one still runs when you only
+# copy rc.xml. labwc hands its environment to systemd and D-Bus by itself, so the
+# screen sharing portal finds it without anything here.
+
+# Hand the login password to KWallet so it unlocks without asking. Plasma does this
+# through an autostart entry that other sessions don't run.
+/usr/libexec/pam_kwallet_init &
+
+# Noctalia draws the bar, wallpaper and notifications.
+noctalia &

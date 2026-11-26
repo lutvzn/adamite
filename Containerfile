@@ -126,6 +126,25 @@ COPY files/wayland-sessions/sway.desktop files/wayland-sessions/labwc.desktop \
 COPY files/sway/config /etc/sway/config
 COPY files/labwc/rc.xml files/labwc/autostart /etc/xdg/labwc/
 
+# Small Wayland tools for the non-Plasma sessions, from Fedora (about 4 MB together).
+# Some fill gaps Noctalia doesn't cover: command-line clipboard (wl-clipboard), display
+# setup (wlr-randr, kanshi, wdisplays) and mirroring (wl-mirror), typing from scripts
+# (wtype) and finding key names for bindings (wev). The rest are common picks for
+# people who write their own configs without Noctalia: launchers (fuzzel, wofi),
+# notifications (mako, dunst), a logout menu (wlogout), a wallpaper (swaybg), locking
+# and idle (swaylock, swayidle), night light (wlsunset, gammastep), brightness and
+# media keys (brightnessctl, playerctl), screenshot editing (swappy) and Qt theming
+# (qt6ct, only used when QT_QPA_PLATFORMTHEME=qt6ct).
+# None of them starts on its own. mako and dunst would otherwise be started by D-Bus
+# for the first notification, racing Plasma and Noctalia for the notification name and
+# breaking their notifications, so drop that and leave starting them to the user's config.
+RUN dnf -y install --setopt=install_weak_deps=False \
+        wl-clipboard wlr-randr kanshi wdisplays wl-mirror wtype wev \
+        fuzzel wofi mako dunst wlogout swaybg \
+        swaylock swayidle wlsunset gammastep brightnessctl playerctl swappy qt6ct && \
+    rm /usr/share/dbus-1/services/fr.emersion.mako.service \
+       /usr/share/dbus-1/services/org.knopwob.dunst.service
+
 # ffmpeg with H.264 and H.265 encoding and hardware acceleration, from the same repo.
 # Fedora's ffmpeg-free leaves out x264 and x265, and full builds need RPM Fusion, so
 # github.com/lutvzn/packages builds them in. Its own copy of ffmpeg's libraries sits

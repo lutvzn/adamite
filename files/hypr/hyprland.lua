@@ -1,7 +1,7 @@
--- Ruizite's default Hyprland config, used until you create ~/.config/hypr/hyprland.lua.
+-- Adamite's default Hyprland config, used until you create ~/.config/hypr/hyprland.lua.
 -- To customize it, copy this file there: cp /etc/xdg/hypr/hyprland.lua ~/.config/hypr/
 --
--- It is Hyprland 0.57.2's example config with these changes for Ruizite:
+-- It is Hyprland 0.57.2's example config with these changes for Adamite:
 -- - foot as the terminal and Noctalia's launcher as the menu
 -- - KWallet unlocked with your login password at startup, as Plasma does
 -- - volume, brightness and media keys, screenshots on Print and the exit bind use Noctalia

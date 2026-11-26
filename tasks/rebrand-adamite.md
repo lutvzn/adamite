@@ -1,12 +1,12 @@
-# Rebrand Ruizite without forking Anatase
+# Rebrand Adamite without forking Anatase
 
-Keep Ruizite a bootc derivative of `i.anatase.org/anatase:stable`. The image currently changes only `NAME` and `PRETTY_NAME`; the installed boot entries can still say Anatase, and Fastfetch shows `OS: Ruizite` next to Anatase art.
+Keep Adamite a bootc derivative of `i.anatase.org/anatase:stable`. The image currently changes only `NAME` and `PRETTY_NAME`; the installed boot entries can still say Anatase, and Fastfetch shows `OS: Adamite` next to Anatase art.
 
 ## Scope
 
-- [ ] Create original Ruizite artwork. Replace the About System and launcher icons, Plasma theme and login splash, wallpapers, and Fastfetch art. Check for other visible marks, including Steam's update screen and the Anatase Browser and Konsole entries. Keep upstream attribution distinct from Ruizite branding.
-- [ ] Replace the Plymouth watermark and fallback logo. Investigate how the boot entry title is generated and verify a new Ruizite deployment shows the right title without relabeling a stock Anatase rollback entry.
-- [ ] Update `LOGO` and user-facing homepage, docs, support, and issue links where Ruizite has real destinations. Retain `ID=anatase`, `VARIANT_ID=anatase`, and the Steam-facing codename unless a separate compatibility review warrants changing them. Leave the updater and signing policy intact.
+- [ ] Create original Adamite artwork. Replace the About System and launcher icons, Plasma theme and login splash, wallpapers, and Fastfetch art. Check for other visible marks, including Steam's update screen and the Anatase Browser and Konsole entries. Keep upstream attribution distinct from Adamite branding.
+- [ ] Replace the Plymouth watermark and fallback logo. Investigate how the boot entry title is generated and verify a new Adamite deployment shows the right title without relabeling a stock Anatase rollback entry.
+- [ ] Update `LOGO` and user-facing homepage, docs, support, and issue links where Adamite has real destinations. Retain `ID=anatase`, `VARIANT_ID=anatase`, and the Steam-facing codename unless a separate compatibility review warrants changing them. Leave the updater and signing policy intact.
 
 ## Public release gate
 

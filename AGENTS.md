@@ -1,10 +1,10 @@
 # AGENTS.md
 
-Guidance for AI coding agents (and humans) working on **Ruizite**.
+Guidance for AI coding agents (and humans) working on **Adamite**.
 
-## What Ruizite is
+## What Adamite is
 
-Ruizite is a custom Linux image built on top of [Anatase](https://anatase.org).
+Adamite is a custom Linux image built on top of [Anatase](https://anatase.org).
 It is a fork of the upstream Anatase image template
 (`github.com/anatase-org/template`): a bootable container image (bootc) built
 from a `Containerfile`, starting `FROM` an Anatase image:
@@ -19,7 +19,7 @@ container generally works here.
 
 | Path | Purpose |
 |------|---------|
-| `Containerfile` | The Ruizite image definition. |
+| `Containerfile` | The Adamite image definition. |
 | `examples/` | Alternative desktop Containerfiles (GNOME, Cosmic, Cinnamon, XFCE, Niri). |
 | `update.sh` | Local build + `bootc switch` to the built image. Runs as root and changes the running system. |
 | `.github/workflows/build.yml` | CI build and push to GHCR. Only rebuilds when the Anatase version or the commit changes. |
@@ -45,13 +45,13 @@ Every change should serve these three goals, in this order of priority when they
 ### 3. Simplicity
 - Prefer a short, readable `Containerfile` over clever scripting. One clear purpose per `RUN` block, with a comment explaining *why*.
 - Don't add build systems, frameworks, or extra tooling when a plain shell line will do.
-- Keep the template's structure, so anyone familiar with Anatase can read Ruizite at a glance.
+- Keep the template's structure, so anyone familiar with Anatase can read Adamite at a glance.
 - Remove dead code and stale comments rather than piling on more.
 
 ## Upstream compatibility (important)
 
-Ruizite must stay a **drop-in compatible** Anatase derivative. Users should be
-able to `bootc switch` between Anatase and Ruizite (and between the examples) without reinstalling,
+Adamite must stay a **drop-in compatible** Anatase derivative. Users should be
+able to `bootc switch` between Anatase and Adamite (and between the examples) without reinstalling,
 and it should stay easy to merge upstream template changes.
 
 **Do not change these without explicitly warning the user first:**
@@ -75,7 +75,7 @@ Then wait for the user to confirm. If unsure whether something affects compatibi
 
 - **Never run `update.sh`** or `bootc switch`/`bootc update` on your own. They modify the host system and need root. Tell the user the command instead. Never run it inside a Space/container either.
 - To check a change without deploying it, a plain build is enough:
-  `podman build --pull=always -f Containerfile -t localhost/ruizite-test .`
+  `podman build --pull=always -f Containerfile -t localhost/adamite-test .`
 - Keep examples self-contained and consistent with each other (same cleanup step, same `install_weak_deps=False` style).
 - Keep docs in sync. If behavior changes, update `readme.md` in the same change.
 - Keep commits small and focused, with messages in the imperative mood (matching the existing history).

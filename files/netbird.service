@@ -1,5 +1,5 @@
 # Same unit `netbird service install` would generate. The RPM's install script
-# can't run during an image build, so Ruizite ships it here instead.
+# can't run during an image build, so Adamite ships it here instead.
 [Unit]
 Description=NetBird mesh network client
 ConditionFileIsExecutable=/usr/bin/netbird

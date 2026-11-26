@@ -1,7 +1,7 @@
-// Ruizite's default niri config, used until you create ~/.config/niri/config.kdl.
+// Adamite's default niri config, used until you create ~/.config/niri/config.kdl.
 // To customize it, copy this file there: cp /etc/niri/config.kdl ~/.config/niri/
 //
-// It is niri 26.04's default config with these changes for Ruizite:
+// It is niri 26.04's default config with these changes for Adamite:
 // - foot as the terminal, Noctalia's launcher and lock screen
 // - KWallet unlocked with your login password at startup, as Plasma does
 // - volume, brightness and media keys use Noctalia

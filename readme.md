@@ -1,8 +1,8 @@
 ![Tux beside a yellow oven baking cookies](./res/oven.png)
 
-# Custom Image Template
+# Adamite
 
-Make your own custom Anatase image! Anatase is designed to be lean and unopinionated, while not needing extension for normal use. But you might want to mess with the image to add your own tools, or toy around.
+Adamite is a custom bootable image based on Anatase. You can use the same template to make your own image with different tools or desktop environments.
 
 Anatase is a normal container image you can download from `i.anatase.org/anatase:stable` and then add your own packages. It is based on the latest version of Fedora, so anything you would install or modify on a fedora container you can do here. In this repository, you can find a template containerfile for building your own image.
 
@@ -18,16 +18,18 @@ cd my-anatase
 Then, customize `Containerfile` to your liking. When done, if on an Anatase system, you can run `./update.sh` from the terminal to update to that image and run it again periodically to access the latest versions. Do not run `./update.sh` in Spaces. If your IDE is in a Space, open the folder using a host terminal and run it there.
 
 ### On Github actions
-A [build.yml](./.github/workflows/build.yml) Github workflow is provided that allows you to go to your fork, select `Actions > Build Custom Image > Run Workflow`. This will build the image and upload it under `ghcr.io/<your-username>/ruizite`.
+A [build.yml](./.github/workflows/build.yml) Github workflow is provided that allows you to go to your fork, select `Actions > Build Custom Image > Run Workflow`. This will build the image and upload it under `ghcr.io/<your-username>/adamite`.
 
 Then, you can switch to it with:
 ```bash
-sudo bootc switch ghcr.io/<my-username>/ruizite
+sudo bootc switch ghcr.io/<your-username>/adamite
 ```
+
+If you already track the previous image name, switch to this reference once the new image is published. `bootc update` does not change the image reference.
 
 Afterwards, the automatic updater will pick it up and handle updates for you, or you can manually do `sudo bootc update`.
 
-You can edit [build.yml](./.github/workflows/build.yml) to switch `ruizite` to something else, enable build on pushes, and run the workflow on a schedule.
+You can edit [build.yml](./.github/workflows/build.yml) to switch `adamite` to something else, enable build on pushes, and run the workflow on a schedule.
 
 > [!NOTE]
 > **Remember:** use `FROM i.anatase.org/base:stable` when you want to use a different Desktop Environment. To extend Anatase, use `FROM i.anatase.org/anatase:stable` 
@@ -38,11 +40,11 @@ In the [`./examples`](./examples/) folder, you will find Containerfiles for insp
 
 ## OS name
 
-Ruizite shows up as "Ruizite" in the boot menu, System Settings and tools like `fastfetch`. Only `NAME` and `PRETTY_NAME` in `/usr/lib/os-release` change. `ID=anatase` and the other fields stay as they are, so anything that checks for Anatase, including Steam and the updater, still works.
+Adamite shows up as "Adamite" in System Settings and tools like `fastfetch`. Existing boot entries can still say Anatase. Only `NAME` and `PRETTY_NAME` in `/usr/lib/os-release` change. `ID=anatase` and the other fields stay as they are, so anything that checks for Anatase, including Steam and the updater, still works.
 
 ## Homebrew (brew-proxy)
 
-Ruizite ships [Homebrew](https://brew.sh/) with [brew-proxy](https://codeberg.org/HastD/brew-proxy), set up the same way as [secureblue](https://secureblue.dev). The packages come from secureblue's COPR and are checked against its pinned signing key in [`keys/`](./keys/).
+Adamite ships [Homebrew](https://brew.sh/) with [brew-proxy](https://codeberg.org/HastD/brew-proxy), set up the same way as [secureblue](https://secureblue.dev). The packages come from secureblue's COPR and are checked against its pinned signing key in [`keys/`](./keys/).
 
 `/home/linuxbrew` belongs to a dedicated `linuxbrew` user. When you run `brew`, the command is passed to a sandboxed daemon that runs as that user, so your own processes can't change brew's binaries:
 
@@ -54,7 +56,7 @@ Brew is set up on first boot. `brew-update.timer` and `brew-upgrade.timer` keep 
 
 ## Extra apps
 
-Ruizite also ships:
+Adamite also ships:
 
 - [foot](https://codeberg.org/dnkl/foot), a lightweight Wayland terminal, from the Fedora repos.
 - [Brave Origin](https://brave.com/origin/linux/), from Brave's RPM repo, checked against Brave's release keys in [`keys/`](./keys/). It updates with the image, not through `dnf`. It always uses KWallet, so saved passwords and logins carry over between Plasma, Hyprland and niri.
@@ -63,13 +65,13 @@ Ruizite also ships:
 
 ## Noctalia, Hyprland and niri
 
-Ruizite adds two sessions next to Plasma in the login screen: Hyprland and niri, both running the [Noctalia](https://noctalia.dev) shell. Plasma stays the default and is unchanged.
+Adamite adds two sessions next to Plasma in the login screen: Hyprland and niri, both running the [Noctalia](https://noctalia.dev) shell. Plasma stays the default and is unchanged.
 
 - Noctalia, niri and xwayland-satellite come from the Fedora repos.
 - Hyprland, its libraries, xdg-desktop-portal-hyprland (screen sharing and screenshots under Hyprland) and hyprland-guiutils (its dialogs and run prompt) aren't in Fedora. They come from [lutvzn/packages](https://github.com/lutvzn/packages), which builds them from pinned upstream sources on GitHub Actions. The image checks them against that repo's key in [`keys/`](./keys/) instead of using someone else's COPR. That build leaves out hyprpm (plugins) and Hyprland's 48 MB of default wallpapers.
 - `noctalia.service` starts Noctalia with either session, so you can keep using Hyprland's and niri's own default configs. It never starts in Plasma. If your own config also starts `noctalia`, the service skips itself.
 
-Both sessions start with Ruizite's default configs, [`/etc/xdg/hypr/hyprland.lua`](./files/hypr/hyprland.lua) and [`/etc/niri/config.kdl`](./files/niri/config.kdl). They are the upstream defaults with these changes:
+Both sessions start with Adamite's default configs, [`/etc/xdg/hypr/hyprland.lua`](./files/hypr/hyprland.lua) and [`/etc/niri/config.kdl`](./files/niri/config.kdl). They are the upstream defaults with these changes:
 
 - foot as the terminal (Super+Q in Hyprland, Super+T in niri) and Noctalia's launcher (Super+R in Hyprland, Super+D in niri).
 - KWallet unlocks with your login password, as in Plasma, so Brave and other apps find their saved passwords.

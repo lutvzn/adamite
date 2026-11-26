@@ -1,9 +1,9 @@
 FROM i.anatase.org/anatase:stable
 
-# Show "Ruizite" as the OS name (boot menu, System Settings, fastfetch). Only the
-# display names change: ID, VARIANT_ID and the rest stay Anatase's, so tools and the
+# Show "Adamite" as the OS name (System Settings, fastfetch).
+# Only the display names change: ID, VARIANT_ID and the rest stay Anatase's, so tools and the
 # updater that check for Anatase keep working and rebasing back stays clean.
-RUN sed -i -e 's/^NAME=.*/NAME="Ruizite"/' -e 's/^PRETTY_NAME=.*/PRETTY_NAME="Ruizite"/' \
+RUN sed -i -e 's/^NAME=.*/NAME="Adamite"/' -e 's/^PRETTY_NAME=.*/PRETTY_NAME="Adamite"/' \
         /usr/lib/os-release
 
 # Do your thing...

@@ -8,7 +8,7 @@ if (( UID != 0 )); then
 fi
 
 cd "$(dirname "$0")"
-image="localhost/ruizite:latest"
+image="localhost/adamite:latest"
 podman build --network=host --pull=always --file Containerfile --tag "$image" .
 bootc switch --transport containers-storage "$image"
 bootc update

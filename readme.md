@@ -9,11 +9,13 @@ Anatase is a normal container image you can download from `i.anatase.org/anatase
 Anatase also provides a base image (`i.anatase.org/base:stable`) which is the same Anatase you know with gamemode, Nvidia drivers, and everything included, but without KDE. This way, you can add your own Desktop Environment and experiment with tiling managers, Gnome, Cosmic, or anything else. The base image is built with the same tested packages as the main image so it is a perfect environment to become your own distribution builder and learn about containers.
 
 ## Using the template
-To use this template, select `Use this template`, clone it, or clone this repository:
+To customize Adamite, clone this repository:
 ```bash
-git clone https://github.com/anatase-org/template my-anatase
-cd my-anatase
+git clone https://github.com/lutvzn/adamite.git
+cd adamite
 ```
+
+To start from stock Anatase instead, use the [upstream template](https://github.com/anatase-org/template).
 
 Then, customize `Containerfile` to your liking. When done, if on an Anatase system, you can run `./update.sh` from the terminal to update to that image and run it again periodically to access the latest versions. Do not run `./update.sh` in Spaces. If your IDE is in a Space, open the folder using a host terminal and run it there.
 

@@ -88,7 +88,13 @@ RUN --mount=type=bind,source=keys/netbird.gpg,target=/tmp/netbird.gpg \
 # Default configs for both, set up for foot, Noctalia and KWallet. Hyprland and niri
 # only use them while ~/.config/hypr/hyprland.lua or ~/.config/niri/config.kdl is missing.
 # They are based on Hyprland 0.57.2's and niri 26.04's defaults; recheck them on upgrades.
+# Xwayland Video Bridge is a Plasma tool, but its autostart entry runs in every session
+# that starts XDG autostart (niri, Hyprland), where its hidden window gets tiled and
+# takes up half the screen. A drop-in in /usr limits it to Plasma without touching
+# Anatase's /etc entry.
 COPY files/noctalia.service /usr/lib/systemd/user/noctalia.service
+COPY files/xwaylandvideobridge-plasma-only.conf \
+     /usr/lib/systemd/user/app-org.kde.xwaylandvideobridge@autostart.service.d/plasma-only.conf
 COPY files/hypr/hyprland.lua /etc/xdg/hypr/hyprland.lua
 COPY files/niri/config.kdl /etc/niri/config.kdl
 RUN --mount=type=bind,source=keys/lutvzn-packages.gpg,target=/tmp/lutvzn-packages.gpg \

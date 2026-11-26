@@ -73,6 +73,7 @@ Adamite adds four sessions next to Plasma in the login screen: Hyprland, niri, S
 - Hyprland, its libraries, xdg-desktop-portal-hyprland (screen sharing and screenshots under Hyprland) and hyprland-guiutils (its dialogs and run prompt) aren't in Fedora. They come from [lutvzn/packages](https://github.com/lutvzn/packages), which builds them from pinned upstream sources on GitHub Actions. The image checks them against that repo's key in [`keys/`](./keys/) instead of using someone else's COPR. That build leaves out hyprpm (plugins) and Hyprland's 48 MB of default wallpapers.
 - `noctalia.service` starts Noctalia with Hyprland and niri, so you can keep using their own default configs. It never starts in Plasma. If your own config also starts `noctalia`, the service skips itself.
 - Sway and labwc don't start a systemd session, so Adamite's default configs for them start Noctalia themselves. Keep that line if you write your own config.
+- Xwayland Video Bridge (screen sharing for X11 apps) only starts in Plasma. Elsewhere its hidden window would be tiled and take up half the screen.
 
 Each session starts with Adamite's default config: [`/etc/xdg/hypr/hyprland.lua`](./files/hypr/hyprland.lua), [`/etc/niri/config.kdl`](./files/niri/config.kdl), [`/etc/sway/config`](./files/sway/config), and [`/etc/xdg/labwc/rc.xml`](./files/labwc/rc.xml) with [`autostart`](./files/labwc/autostart). They are the upstream defaults with these changes:
 

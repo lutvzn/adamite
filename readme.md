@@ -1,4 +1,7 @@
-![Tux beside a yellow oven baking cookies](./res/oven.png)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="./res/branding/adamite-wordmark-dark.svg">
+  <img alt="Adamite" src="./res/branding/adamite-wordmark.svg" width="480">
+</picture>
 
 # Adamite
 
@@ -43,6 +46,12 @@ In the [`./examples`](./examples/) folder, you will find Containerfiles for insp
 ## OS name
 
 Adamite shows up as "Adamite" in System Settings and tools like `fastfetch`. Existing boot entries can still say Anatase. Only `NAME` and `PRETTY_NAME` in `/usr/lib/os-release` change. `ID=anatase` and the other fields stay as they are, so anything that checks for Anatase, including Steam and the updater, still works.
+
+## Logo
+
+Adamite uses its own logo, a faceted bipyramid, instead of Anatase's in the launcher, About System, the Plasma splash, Steam's update screen and `fastfetch`. The logo and wordmark are in [`res/branding/`](./res/branding/) as SVG and PNG, and [`files/branding/`](./files/branding/) holds the copies that go into the image, under Anatase's file names.
+
+The early boot splash can still show Anatase's logo, since the initramfs isn't rebuilt. Anatase's wallpapers, themes and theme previews are unchanged. The wordmark's lettering is outlined from [Cantarell](https://gitlab.gnome.org/GNOME/cantarell-fonts) (OFL).
 
 ## Homebrew (brew-proxy)
 

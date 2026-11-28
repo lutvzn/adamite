@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+  <!-- Faceted bipyramid, the crystal habit of adamite and anatase -->
+  <polygon points="128,16 46,128 150,128" fill="#8EF1E6"/>
+  <polygon points="128,16 150,128 210,128" fill="#26C2B3"/>
+  <polygon points="46,128 128,240 150,128" fill="#40E0D0"/>
+  <polygon points="150,128 128,240 210,128" fill="#0C6E66"/>
+</svg>

@@ -159,6 +159,12 @@ RUN --mount=type=bind,source=keys/lutvzn-packages.gpg,target=/tmp/lutvzn-package
         --setopt=lutvzn.includepkgs=ffmpeg-full \
         ffmpeg-full
 
+# Adamite's bipyramid logo in place of Anatase's: icons, Plasma splash, Plymouth, Steam's
+# update screen and Fastfetch. The files keep Anatase's names, so everything that looks
+# them up, including LOGO= in os-release, works unchanged. The initramfs isn't rebuilt, so
+# the early boot splash can still show Anatase's logo. Sources are in res/branding.
+COPY files/branding/ /
+
 # Cleanup (leave this here)
 RUN rm -rf /var && \
     mkdir -p /var/tmp

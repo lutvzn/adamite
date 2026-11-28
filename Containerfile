@@ -80,8 +80,8 @@ RUN --mount=type=bind,source=keys/netbird.gpg,target=/tmp/netbird.gpg \
 # Noctalia shell with Hyprland and niri, as extra sessions next to Plasma in SDDM.
 # Noctalia, niri and xwayland-satellite come from Fedora. Hyprland, its libraries, its
 # portal (screen sharing, screenshots) and its GUI utils (dialogs) aren't in Fedora, so
-# they come from github.com/lutvzn/packages, built from pinned upstream sources on
-# GitHub Actions.
+# they come from github.com/lutvzn/adamite-pkgs, built from pinned upstream sources
+# on GitHub Actions.
 # Packages and repo metadata are checked against its pinned key (A7CC 0893 6B30 B427
 # 873E 2B2D 15DF 8D57 EA7D 3A64), the repo is limited to these names, and it is only
 # used for this build.
@@ -99,7 +99,7 @@ COPY files/hypr/hyprland.lua /etc/xdg/hypr/hyprland.lua
 COPY files/niri/config.kdl /etc/niri/config.kdl
 RUN --mount=type=bind,source=keys/lutvzn-packages.gpg,target=/tmp/lutvzn-packages.gpg \
     dnf -y install --setopt=install_weak_deps=False \
-        --repofrompath='lutvzn,https://lutvzn.github.io/packages/fedora/$releasever/$basearch/' \
+        --repofrompath='lutvzn,https://lutvzn.github.io/adamite-pkgs/fedora/$releasever/$basearch/' \
         --setopt=lutvzn.gpgcheck=1 \
         --setopt=lutvzn.repo_gpgcheck=1 \
         --setopt=lutvzn.gpgkey=file:///tmp/lutvzn-packages.gpg \
@@ -147,12 +147,12 @@ RUN dnf -y install --setopt=install_weak_deps=False \
 
 # ffmpeg with H.264 and H.265 encoding and hardware acceleration, from the same repo.
 # Fedora's ffmpeg-free leaves out x264 and x265, and full builds need RPM Fusion, so
-# github.com/lutvzn/packages builds them in. Its own copy of ffmpeg's libraries sits
+# github.com/lutvzn/adamite-pkgs builds them in. Its own copy of ffmpeg's libraries sits
 # in /usr/lib64/ffmpeg-full, used only by ffmpeg and ffprobe, so the libav*-free
 # libraries Anatase ships stay as they are.
 RUN --mount=type=bind,source=keys/lutvzn-packages.gpg,target=/tmp/lutvzn-packages.gpg \
     dnf -y install --setopt=install_weak_deps=False \
-        --repofrompath='lutvzn,https://lutvzn.github.io/packages/fedora/$releasever/$basearch/' \
+        --repofrompath='lutvzn,https://lutvzn.github.io/adamite-pkgs/fedora/$releasever/$basearch/' \
         --setopt=lutvzn.gpgcheck=1 \
         --setopt=lutvzn.repo_gpgcheck=1 \
         --setopt=lutvzn.gpgkey=file:///tmp/lutvzn-packages.gpg \

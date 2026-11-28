@@ -165,6 +165,9 @@ RUN --mount=type=bind,source=keys/lutvzn-packages.gpg,target=/tmp/lutvzn-package
 # the early boot splash can still show Anatase's logo. Sources are in res/branding.
 COPY files/branding/ /
 
+# Fastfetch labels in the logo's turquoise instead of yellow.
+RUN sed -i -E 's/"(keys|title)": "@3"/"\1": "38;2;64;224;208"/' /etc/xdg/fastfetch/config.jsonc
+
 # Cleanup (leave this here)
 RUN rm -rf /var && \
     mkdir -p /var/tmp

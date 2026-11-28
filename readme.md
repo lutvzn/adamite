@@ -51,6 +51,8 @@ Adamite shows up as "Adamite" in System Settings and tools like `fastfetch`. Exi
 
 Adamite uses its own logo, a faceted bipyramid, instead of Anatase's in the launcher, About System, the Plasma splash, Steam's update screen and `fastfetch`. The logo and wordmark are in [`res/branding/`](./res/branding/) as SVG and PNG, and [`files/branding/`](./files/branding/) holds the copies that go into the image, under Anatase's file names.
 
+`fastfetch` also shows its labels in the logo's turquoise instead of yellow. To change that, copy `/etc/xdg/fastfetch/config.jsonc` to `~/.config/fastfetch/` and edit `display.color`.
+
 The early boot splash can still show Anatase's logo, since the initramfs isn't rebuilt. Anatase's wallpapers, themes and theme previews are unchanged. The wordmark's lettering is outlined from [Cantarell](https://gitlab.gnome.org/GNOME/cantarell-fonts) (OFL).
 
 ## Homebrew (brew-proxy)
